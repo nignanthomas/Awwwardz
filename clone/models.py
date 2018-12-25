@@ -7,23 +7,7 @@ from django.dispatch import receiver
 
 
 # Create your models here.
-Gender=(
-    ('Male','Male'),
-    ('Female','Female'),
-)
 
-class Location(models.Model):
-    location_name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.location_name
-
-    def save_location(self):
-        self.save()
-
-    @classmethod
-    def delete_location(cls,location):
-        cls.objects.filter(location=location).delete()
 
 class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='photos/',null=True)
@@ -31,8 +15,6 @@ class Profile(models.Model):
     username = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
     bio = HTMLField(null=True)
     email = models.EmailField(null=True)
-    phonenumber = models.IntegerField(null=True)
-    gender = models.CharField(max_length=15,choices=Gender,default="Male",null=True)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
@@ -50,6 +32,7 @@ class Profile(models.Model):
     def search_profile(cls,search_term):
         profiles = cls.objects.filter(Q(username__username=search_term) | Q(fullname__icontains=search_term))
         return profiles
+
 
 class Post(models.Model):
     photo_pic = models.ImageField(upload_to = 'photos/')
