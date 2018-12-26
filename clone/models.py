@@ -42,6 +42,7 @@ class Project(models.Model):
     screen_one = models.ImageField(upload_to='photos/', null=True)
     screen_two = models.ImageField(upload_to='photos/', null=True)
     description = models.TextField(blank=True)
+    technologies = models.CharField(max_length=200, null=True)
     link = models.CharField(max_length=200, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
@@ -67,3 +68,21 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(Profile, related_name='ratings', null=True)
+    project = models.ForeignKey(Project, related_name='ratings', null=True)
+    date = models.DateTimeField(auto_now_add=True, null=True)
+    usability = models.IntegerField(default=0,)
+    design = models.IntegerField(default=0,)
+    content = models.IntegerField(default=0,)
+    creativity = models.IntegerField(default=0,)
+    score = models.IntegerField(default=0,)
+    comment = models.CharField(max_length=200, null=True)
+
+    @property
+    def get_last_post(self):
+        return Rating.objects.last()
