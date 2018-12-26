@@ -53,7 +53,7 @@ class Project(models.Model):
 
     @classmethod
     def filter_by_search_term(cls, search_term):
-        return cls.objects.filter(Q(description__icontains=search_term) | Q(description__icontains=search_term))
+        return cls.objects.filter(Q(description__icontains=search_term) | Q(title__icontains=search_term))
 
     def get_user_projects(self, post):
         projects = self.objects.filter(uploaded_by=post.uploaded_by)

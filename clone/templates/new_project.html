@@ -6,13 +6,12 @@
 
 <div class="container m-5">
 
-  <div class="text-center w-50 rounded border border-primary bg-white mx-auto">
+  <div class="text-center w-50 rounded border border-primary bg-white mx-auto p-2">
     <img src="https://builtbytophat.com/wp-content/uploads/2016/03/awwwards-website-logo.png" alt="" width="200">
     <br>
     <p class="border border-secondary bg-secondary text-white">SUBMIT PROJECT</p>
     <form  action="{%url 'new-project'%}" method="post" enctype="multipart/form-data">
         {%csrf_token%}
-
         {% bootstrap_form form%}
         <input type="submit" class="btn-success btn-lg" value="Post">
     </form>

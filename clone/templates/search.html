@@ -2,29 +2,21 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5">
 
   <p>{{message}}</p>
 
   {% if results %}
-  <div class="text-center">
-    <div class="panel" style="width: 40rem;">
-      <!-- <div class="custom-card-header"> -->
-      <div class="panel-body">
+      <div class="row mt-5">
         {% for result in results%}
-        <div class="col-md-4">
-          <a href="{% url 'project' project.id %}">
-          <img src="{{project.landing_image.url}}" alt="" width="300" height="200">
-          <p><a href="{% url 'project' project.id %}">{{project.title}}</a></p>
+        <div class="col-md-4 text-center">
+          <a href="{% url 'project' result.id %}">
+          <img src="{{result.landing_image.url}}" alt="" width="300" height="200">
+          <p><a href="{% url 'project' result.id %}">{{result.title}}</a></p>
           </a>
         </div>
-        <!-- </div> -->
-
         {% endfor %}
-
       </div>
-    </div>
-  </div>
   {% else %}
   <h3>0 Results.</h3>
   {%endif %}

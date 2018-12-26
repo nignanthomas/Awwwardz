@@ -16,7 +16,7 @@
                 <a class="nav-link"
                    href="/">Home</a>
             </li>
-            {% if user.is_authenticated %}
+            {% if disp_user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link"
                    href="{% url 'profile' user.id %}">Profile</a>
@@ -59,7 +59,7 @@
                 <a class="nav-link"
                    href="/accounts/register/">Sign Up</a>
             </li>
-            {% if user.is_authenticated %}
+            {% if disp_user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link"
                    href="{% url 'profile' user.id %}">User: {{user}}</a>

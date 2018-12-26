@@ -5,11 +5,11 @@
 {% block content %}
 
 
-<div class="panel panel-default">
+<div class="container m-5">
 
-    <div class="panel-body">
+    <div class="text-center w-75 rounded border border-primary bg-white p-3 mx-auto">
       <div class="logo-header">
-        <!-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/2000px-Instagram_logo.svg.png" alt="" width="200"> -->
+        <img src="https://builtbytophat.com/wp-content/uploads/2016/03/awwwards-website-logo.png" alt="" width="200">
         <br>
       </div>
       <form action="{%url 'edit-profile'%}" method="post" enctype="multipart/form-data">
@@ -24,7 +24,7 @@
 
       </form>
     </div>
-  </div>
+</div>
 
 
   {% endblock %}
