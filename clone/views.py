@@ -28,6 +28,11 @@ def search_results(request):
         return render(request,'search.html',{"message":message})
 
 
+def project(request,id):
+    project = Project.get_one_post(id)
+    return render(request,'project.html',{"project":project})
+
+
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
     user_object = request.user
