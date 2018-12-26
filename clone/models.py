@@ -10,7 +10,7 @@ from django.dispatch import receiver
 
 
 class Profile(models.Model):
-    profile_pic = models.ImageField(upload_to='photos/',null=True)
+    avatar = models.ImageField(upload_to='photos/',null=True)
     fullname = models.CharField(max_length=255,null=True)
     username = models.OneToOneField(User,on_delete=models.CASCADE,related_name='profile')
     bio = HTMLField(null=True)
@@ -34,51 +34,36 @@ class Profile(models.Model):
         return profiles
 
 
-class Post(models.Model):
-    photo_pic = models.ImageField(upload_to = 'photos/')
-    caption = models.CharField(max_length=3000)
-    upload_by = models.ForeignKey(Profile)
-    likes = models.IntegerField(default=0)
-    location = models.ForeignKey(Location,on_delete=models.CASCADE)
-    post_date=models.DateTimeField(auto_now_add=True)
+
+class Project(models.Model):
+    title = models.CharField(max_length=200, null=True)
+    uploaded_by = models.ForeignKey(Profile, null=True, related_name='poster')
+    landing_image = models.ImageField(upload_to='photos/',)
+    screen_one = models.ImageField(upload_to='photos/', null=True)
+    screen_two = models.ImageField(upload_to='photos/', null=True)
+    description = models.TextField(blank=True)
+    link = models.CharField(max_length=200, null=True)
+    date = models.DateTimeField(auto_now_add=True)
+
+    @classmethod
+    def all_projects(cls):
+        all_projects = cls.objects.all()
+        return all_projects
+
+    @classmethod
+    def filter_by_search_term(cls, search_term):
+        return cls.objects.filter(Q(description__icontains=search_term) | Q(description__icontains=search_term))
+
+    def get_user_projects(self, post):
+        projects = self.objects.filter(uploaded_by=post.uploaded_by)
+        return projects
+
+    def get_one_post(self, post_id):
+        return self.objects.get(pk=post_id)
+
+    def save_post(self, user):
+        self.uploaded_by = user
+        self.save()
 
     def __str__(self):
-        return self.caption
-
-    def save_photo(self, user):
-        self.save()
-
-    @classmethod
-    def all_photos(cls):
-        all_photos = cls.objects.all()
-        return all_photos
-
-    @classmethod
-    def user_photos(cls, username):
-        photos = cls.objects.filter(uploaded_by__username=username)
-        return photos
-
-    @classmethod
-    def filter_by_caption(cls, search_term):
-        return cls.objects.filter(caption__icontains=search_term)
-
-    def delete_photo(self, user):
-        self.delete()
-
-
-class Comment(models.Model):
-    comment_content = models.CharField(max_length=300)
-    username = models.ForeignKey(User,on_delete=models.CASCADE)
-    post = models.ForeignKey(Post,on_delete=models.CASCADE)
-
-    def save_comment(self):
-        self.save()
-
-
-# class Follower(models.Model):
-#     username = models.ForeignKey(User)
-#     followers = models.ForeignKey(User)
-#
-# class Following(models.Model):
-#     username = models.ForeignKey(User)
-#     followings = models.ForeignKey(User)
+        return self.title
