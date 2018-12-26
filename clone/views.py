@@ -19,10 +19,9 @@ def index(request):
 def search_results(request):
     if 'search' in request.GET and request.GET["search"]:
         search_term = request.GET.get("search")
-        searched = Project.filter_by_search_term(search_term)
+        results = Project.filter_by_search_term(search_term)
         message=f"Search results for: {search_term}"
-
-        return render(request,'search.html',{"message":message,"searched":searched})
+        return render(request,'search.html',{"message":message,"results":results})
 
     else:
         message="You haven't searched for any term."
