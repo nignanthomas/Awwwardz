@@ -42,15 +42,15 @@ def profile(request,id):
 def new_project(request):
     current_user = Profile.objects.get(username__id=request.user.id)
     if request.method == 'POST':
-        form = NewPostForm(request.POST, request.FILES)
+        form = NewProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.upload_by = current_user
-            post.save()
+            project = form.save(commit=False)
+            project.upload_by = current_user
+            project.save()
         return redirect('index')
 
     else:
-        form = NewPostForm()
+        form = NewProjectForm()
     return render(request, 'new_project.html', {"form": form})
 
 
