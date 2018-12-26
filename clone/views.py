@@ -28,8 +28,6 @@ def search_results(request):
         return render(request,'search.html',{"message":message})
 
 
-
-
 @login_required(login_url='/accounts/login/')
 def profile(request,id):
     user_object = request.user
@@ -37,6 +35,7 @@ def profile(request,id):
     user = Profile.objects.get(username__id=id)
     projects = Project.objects.filter(upload_by = user)
     return render(request, "profile.html", {"current_user":current_user,"projects":projects,"user":user,"user_object":user_object,})
+
 
 @login_required(login_url='/accounts/login/')
 def new_project(request):
@@ -54,7 +53,6 @@ def new_project(request):
     return render(request, 'new_project.html', {"form": form})
 
 
-
 @login_required(login_url='/accounts/login/')
 def edit_profile(request):
     current_user=request.user
@@ -67,6 +65,4 @@ def edit_profile(request):
     else:
         form=ProfileForm(instance=request.user.profile)
         print('error')
-
-
     return render(request,'edit_profile.html',locals())
