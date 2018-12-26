@@ -3,6 +3,7 @@ from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Profile,Project,Rating
+from .forms import *
 # from django.http import JsonResponse
 # import json
 from django.db.models import Q
@@ -21,7 +22,7 @@ def search_results(request):
         searched = Project.filter_by_search_term(search_term)
         message=f"Search results for: {search_term}"
 
-        return render(request,'search.html',{"message":message,"users":searched_users})
+        return render(request,'search.html',{"message":message,"searched":searched})
 
     else:
         message="You haven't searched for any term."
@@ -39,7 +40,7 @@ def profile(request,id):
     return render(request, "profile.html", {"current_user":current_user,"projects":projects,"user":user,"user_object":user_object,})
 
 @login_required(login_url='/accounts/login/')
-def new_post(request):
+def new_project(request):
     current_user = Profile.objects.get(username__id=request.user.id)
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
@@ -47,11 +48,11 @@ def new_post(request):
             post = form.save(commit=False)
             post.upload_by = current_user
             post.save()
-        return redirect('timeline')
+        return redirect('index')
 
     else:
         form = NewPostForm()
-    return render(request, 'new_post.html', {"form": form})
+    return render(request, 'new_project.html', {"form": form})
 
 
 # def comment():
