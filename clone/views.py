@@ -32,7 +32,11 @@ def search_results(request):
 def project(request,id):
     disp_user = request.user
     project = Project.objects.get(id=id)
-
+    total_usability = 0
+    total_design = 0
+    total_content = 0
+    total_creativity = 0
+    total_score = 0
     ratings = Rating.objects.filter(project=project)
     for rating in ratings:
         total_usability += rating.usability
@@ -41,12 +45,32 @@ def project(request,id):
         total_creativity += rating.creativity
         total_score += rating.score
     length=len(ratings)
-    av_usability = total_usability/length
-    av_design = total_design/length
-    av_content = total_content/length
-    av_creativity = total_creativity/length
-    av_score = total_score/length
-    return render(request,'project.html',{"project":project,"disp_user":disp_user,"av_usability":av_usability,"av_design":av_design,"av_content":av_content,"av_creativity":av_creativity,"av_score":av_score})
+    av_usability = 0
+    av_design = 0
+    av_content = 0
+    av_creativity = 0
+    av_score = 0
+    if length>0:
+        av_usability = total_usability/length
+        av_design = total_design/length
+        av_content = total_content/length
+        av_creativity = total_creativity/length
+        av_score = total_score/length
+
+    has_rated = Rating.objects.filter(Q(user=Profile.objects.get(username__id=request.user.id)) & Q(project=project))
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            ratingz = form.save(commit=False)
+            ratingz.user = Profile.objects.get(username__id=request.user.id)
+            ratingz.project = project
+            ratingz.score = (ratingz.usability + ratingz.creativity + ratingz.design + ratingz.content)/4
+            ratingz.save()
+            return redirect('project', project.id)
+    else:
+        form = RatingForm()
+    return render(request,'project.html',{"project":project,"ratings":ratings,"has_rated":has_rated,"disp_user":disp_user,"av_usability":av_usability,"av_design":av_design,"av_content":av_content,"av_creativity":av_creativity,"av_score":av_score,"form":form})
 
 
 @login_required(login_url='/accounts/login/')

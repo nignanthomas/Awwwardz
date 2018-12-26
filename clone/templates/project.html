@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 
 {% block content %}
@@ -8,8 +9,24 @@
   <p>{{project.title}}</p>
   <img src="{{project.landing_image.url}}" alt="" width="50%" height="50%">
 
+  <p>{{av_usability}}</p>
+  <p>{{av_design}}</p>
+  <p>{{av_creativity}}</p>
+  <p>{{av_content}}</p>
+  <p>{{av_score}}</p>
+  {% for rating in ratings %}
+  <p>{{rating.user.username}}: {{rating.comment}}</p>
+  {% endfor %}
 
-
+  {% if not has_rated %}
+  <form action="{%url 'project' project.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token%}
+    {% bootstrap_form form %}
+    <div class="form-group text-center">
+      <input type="submit" class="btn btn-success btn-lg" value="Rate">
+    </div>
+  </form>
+  {% endif %}
 </div>
 
 
