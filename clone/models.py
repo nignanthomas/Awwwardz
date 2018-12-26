@@ -71,7 +71,6 @@ class Project(models.Model):
 
 
 
-
 class Rating(models.Model):
     user = models.ForeignKey(Profile, related_name='ratings', null=True)
     project = models.ForeignKey(Project, related_name='ratings', null=True)
