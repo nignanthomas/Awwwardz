@@ -54,18 +54,6 @@ def new_project(request):
     return render(request, 'new_project.html', {"form": form})
 
 
-# def comment():
-#     if request.method == 'POST':
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             comment = form.save(commit=False)
-#             comment.username = request.user
-#             comment.post = post
-#             comment.save()
-#         return redirect('timeline')
-#
-#     else:
-#         form = CommentForm()
 
 @login_required(login_url='/accounts/login/')
 def edit_profile(request):
@@ -76,16 +64,6 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             print('success')
-            # new_name = form.cleaned_data["fullname"]
-            # new_bio = form.cleaned_data["bio"]
-            # new_email = form.cleaned_data["email"]
-            # new_phonenumber = form.cleaned_data["phonenumber"]
-            # new_gender = form.cleaned_data["gender"]
-            # new_pic = form.cleaned_data["profile_pic"]
-            # profile=form.save(commit=False)
-            # profile.username = current_user
-            # profile.save()
-            # user_edit.update(fullname = new_name,bio = new_bio,email = new_email,phonenumber = new_phonenumber,gender = new_gender,profile_pic = new_pic)
     else:
         form=ProfileForm(instance=request.user.profile)
         print('error')
