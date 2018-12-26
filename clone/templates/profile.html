@@ -58,12 +58,12 @@
     <button class="btn btn-success"type="button" name="button"><img src="https://img.icons8.com/nolan/48/000000/plus-math.png" width="24">  Submit Project</button>
   </a>
   {% endif %}
-    <div class="row">
+    <div class="row mt-3">
       {% for project in projects %}
       <div class="col-md-4">
         <a href="{% url 'project' project.id %}">
         <img src="{{project.landing_image.url}}" alt="" width="300" height="200">
-        <a href="{{project.link}}"></a>
+        <p><a href="{% url 'project' project.id %}">{{project.title}}</a></p>
         </a>
       </div>
       {% endfor %}

@@ -5,7 +5,7 @@ from .models import Profile,Project,Rating
 class NewProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        exclude = ['upload_by', 'date',]
+        exclude = ['uploaded_by', 'date',]
 
 
 class RatingForm(forms.ModelForm):

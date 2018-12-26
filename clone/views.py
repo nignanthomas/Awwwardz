@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,reverse
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
@@ -12,7 +12,7 @@ from django.db.models import Q
 
 def index(request):
     user = request.user
-    return render(request,'index.html',{"user":user})
+    return render(request,'index.html',{"user":user,"title":"Home"})
 
 
 @login_required(login_url='/accounts/login/')
@@ -21,16 +21,16 @@ def search_results(request):
         search_term = request.GET.get("search")
         results = Project.filter_by_search_term(search_term)
         message=f"Search results for: {search_term}"
-        return render(request,'search.html',{"message":message,"results":results})
+        return render(request,'search.html',{"message":message,"results":results,"title":"Search"})
 
     else:
         message="You haven't searched for any term."
-        return render(request,'search.html',{"message":message})
+        return render(request,'search.html',{"message":message,"title":"Search"})
 
 
 def project(request,id):
-    project = Project.get_one_post(id)
-    return render(request,'project.html',{"project":project})
+    project = Project.objects.get(id=id)
+    return render(request,'project.html',{"project":project,})
 
 
 @login_required(login_url='/accounts/login/')
@@ -39,7 +39,24 @@ def profile(request,id):
     current_user = Profile.objects.get(username__id=request.user.id)
     user = Profile.objects.get(username__id=id)
     projects = Project.objects.filter(uploaded_by = user)
-    return render(request, "profile.html", {"current_user":current_user,"projects":projects,"user":user,"user_object":user_object,})
+    return render(request, "profile.html", {"current_user":current_user,"projects":projects,"user":user,"user_object":user_object,"title":"Profile"})
+
+
+@login_required(login_url='/accounts/login/')
+def edit_profile(request):
+    current_user=request.user
+    user_edit = Profile.objects.get(username__id=current_user.id)
+    title = "Edit Profile"
+    if request.method =='POST':
+        form=ProfileForm(request.POST,request.FILES,instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            print('success')
+            return redirect('profile', user_edit.id)
+        else:
+            form=ProfileForm(instance=request.user.profile)
+            print('error')
+            return render(request,'edit_profile.html',locals())
 
 
 @login_required(login_url='/accounts/login/')
@@ -49,25 +66,10 @@ def new_project(request):
         form = NewProjectForm(request.POST, request.FILES)
         if form.is_valid():
             project = form.save(commit=False)
-            project.upload_by = current_user
+            project.uploaded_by = current_user
             project.save()
-        return redirect('index')
+        return redirect('profile', current_user.id)
 
     else:
         form = NewProjectForm()
-    return render(request, 'new_project.html', {"form": form})
-
-
-@login_required(login_url='/accounts/login/')
-def edit_profile(request):
-    current_user=request.user
-    user_edit = Profile.objects.get(username__id=current_user.id)
-    if request.method =='POST':
-        form=ProfileForm(request.POST,request.FILES,instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            print('success')
-    else:
-        form=ProfileForm(instance=request.user.profile)
-        print('error')
-    return render(request,'edit_profile.html',locals())
+    return render(request, 'new_project.html', {"form": form, "title":"Submit Project"})

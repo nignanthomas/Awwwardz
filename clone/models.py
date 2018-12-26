@@ -36,14 +36,14 @@ class Profile(models.Model):
 
 
 class Project(models.Model):
-    title = models.CharField(max_length=200, null=True)
-    uploaded_by = models.ForeignKey(Profile, null=True, related_name='poster')
+    title = models.CharField(max_length=200,)
+    uploaded_by = models.ForeignKey(Profile, related_name='poster')
     landing_image = models.ImageField(upload_to='photos/',)
-    screen_one = models.ImageField(upload_to='photos/', null=True)
-    screen_two = models.ImageField(upload_to='photos/', null=True)
+    screen_one = models.ImageField(upload_to='photos/', blank=True)
+    screen_two = models.ImageField(upload_to='photos/', blank=True)
     description = models.TextField(blank=True)
-    technologies = models.CharField(max_length=200, null=True)
-    link = models.CharField(max_length=200, null=True)
+    technologies = models.CharField(max_length=200, blank=True)
+    link = models.CharField(max_length=200,)
     date = models.DateTimeField(auto_now_add=True)
 
     @classmethod
