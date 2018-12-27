@@ -15,10 +15,10 @@ awwwardz is a clone of the website Awwwards. It allows a user to post a project 
 6. View my profile page
 
 ### How to use
-To use Instaclone, you must login/register. Once logged in, you will be able to see posts made by other users.
-You can add your own photos from your profile page.
-As a user you can also follow other users and view images posted by those users.
-You also have the possibility to edit your profile and view the photos that you have posted.
+To use awwwardz, you must login/register. Once logged in, you will be able to see projects posted by other users.
+You can add your own projects from your profile page to get them reviewed.
+As a user you can rated others projects only once and leave a comment by the way.
+You also have the possibility to edit your profile and view the projects that you have submitted.
 
 
 ### Tech used
