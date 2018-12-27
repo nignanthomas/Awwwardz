@@ -12,9 +12,33 @@ from django.db.models import Q
 
 def index(request):
     disp_user = request.user
-    
-    projects = Project.all_projects()
-    return render(request,'index.html',{"disp_user":disp_user,"title":"Home"})
+    last = Project.objects.last()
+    projects = Project.objects.all()
+    total_usability = 0
+    total_design = 0
+    total_content = 0
+    total_creativity = 0
+    total_score = 0
+    ratings = Rating.objects.filter(project=last)
+    for rating in ratings:
+        total_usability += rating.usability
+        total_design += rating.design
+        total_content += rating.content
+        total_creativity += rating.creativity
+        total_score += rating.score
+    length=len(ratings)
+    av_usability = 0
+    av_design = 0
+    av_content = 0
+    av_creativity = 0
+    av_score = 0
+    if length>0:
+        av_usability = total_usability/length
+        av_design = total_design/length
+        av_content = total_content/length
+        av_creativity = total_creativity/length
+        av_score = total_score/length
+    return render(request,'index.html',{"disp_user":disp_user,"title":"Home","last":last,"projects":projects,"av_usability":av_usability,"av_design":av_design,"av_content":av_content,"av_creativity":av_creativity,"av_score":av_score,})
 
 
 @login_required(login_url='/accounts/login/')

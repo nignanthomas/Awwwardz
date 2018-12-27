@@ -1,17 +1,18 @@
-# Instaclone
+# awwwardz
 
 ###  Author
 nignanthomas
 
 ### Description
-Instaclone is a clone of the website for the popular photo app Instagram(desktop version)
+awwwardz is a clone of the website Awwwards. It allows a user to post a project he/she has created and get it reviewed by his/her peers.
 
 ### User Stories
-1. Sign in to the application to start using.
-2. Upload my pictures to the application.
-3. See my profile with all my pictures.
-4. Follow other users and see their pictures on my timeline.
-5. Like a picture and leave a comment on it.
+1. View posted projects and their details
+2. Post a project to be rated/reviewed
+3. Rate/ review other users' projects
+4. Search for projects
+5. View projects overall score
+6. View my profile page
 
 ### How to use
 To use Instaclone, you must login/register. Once logged in, you will be able to see posts made by other users.
@@ -47,7 +48,7 @@ $ sudo apt-get install postgresql postgresql-contrib libpq-dev
 
 ### Installation
 1. To access this application on your command line, you need to clone it
-`git clone https://github.com/nignanthomas/Instagram.git`
+`git clone https://github.com/nignanthomas/Awwwardz.git`
 1. Create a requirements.txt in the root folder and copy the requirements above.
 1. Install the required technologies with
 `pip install -r requirements.txt`
@@ -55,10 +56,10 @@ $ sudo apt-get install postgresql postgresql-contrib libpq-dev
 1. You can then run the server with:
 `python3.6 manage.py runserver`
 1. You can make changes to the db with
-`python3.6 manage.py makemigrations instaclone`
+`python3.6 manage.py makemigrations clone`
 `python3.6 manage.py migrate`
 4. You can run tests:
-`python3.6 manage.py test instaclone`
+`python3.6 manage.py test clone`
 
 
 
@@ -66,7 +67,7 @@ $ sudo apt-get install postgresql postgresql-contrib libpq-dev
 No known bugs.
 
 ### Live link
-https://github.com/nignanthomas/Instagram
+https://github.com/nignanthomas/Awwwardz
 
 ### Licence
 This project is under the [MIT](https://github.com) licence

@@ -59,16 +59,15 @@ class Project(models.Model):
         projects = self.objects.filter(uploaded_by=post.uploaded_by)
         return projects
 
-    def get_one_post(self, post_id):
+    def get_one_project(self, post_id):
         return self.objects.get(pk=post_id)
 
     def save_post(self, user):
         self.uploaded_by = user
         self.save()
 
-    @property
-    def get_last_project(self):
-        return Project.objects.last()
+    def get_last_project(cls):
+        return cls.objects.last()
 
     def __str__(self):
         return self.title
@@ -85,3 +84,6 @@ class Rating(models.Model):
     creativity = models.IntegerField(default=0,)
     score = models.IntegerField(default=0,)
     comment = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return f"{self.user} + {self.project}"
