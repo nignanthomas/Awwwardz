@@ -6,19 +6,26 @@
 
 <div class="container">
 
-  <p>{{project.title}}</p>
-  <img src="{{project.landing_image.url}}" alt="" width="50%" height="50%">
-
-  <p>{{av_usability}}</p>
-  <p>{{av_design}}</p>
-  <p>{{av_creativity}}</p>
-  <p>{{av_content}}</p>
-  <p>{{av_score}}</p>
+  <h3 class="text-center mt-5"><u>{{project.title}}</u></h3>
+  <div class="text-center mt-3">
+    <img src="{{project.landing_image.url}}" alt="" width="50%" height="50%">
+  </div>
+  <br>
+  <h4 class="m-2"><u>Score</u></h4>
+  <p>Usability: {{av_usability}}</p>
+  <p>Design: {{av_design}}</p>
+  <p>Creativity: {{av_creativity}}</p>
+  <p>Content: {{av_content}}</p>
+  <p>Average score: {{av_score}}</p>
+  <hr>
+  <h4 class="m-2"><u>Comments</u></h4>
   {% for rating in ratings %}
   <p>{{rating.user.username}}: {{rating.comment}}</p>
   {% endfor %}
+  <hr>
 
   {% if not has_rated %}
+  <h4 class="mt-2"><u>Rate the project</u></h4>
   <form action="{%url 'project' project.id %}" method="post" enctype="multipart/form-data">
     {% csrf_token%}
     {% bootstrap_form form %}

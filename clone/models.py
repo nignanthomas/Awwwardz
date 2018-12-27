@@ -66,6 +66,10 @@ class Project(models.Model):
         self.uploaded_by = user
         self.save()
 
+    @property
+    def get_last_project(self):
+        return Project.objects.last()
+
     def __str__(self):
         return self.title
 
@@ -81,7 +85,3 @@ class Rating(models.Model):
     creativity = models.IntegerField(default=0,)
     score = models.IntegerField(default=0,)
     comment = models.CharField(max_length=200, null=True)
-
-    @property
-    def get_last_post(self):
-        return Rating.objects.last()

@@ -12,6 +12,8 @@ from django.db.models import Q
 
 def index(request):
     disp_user = request.user
+    
+    projects = Project.all_projects()
     return render(request,'index.html',{"disp_user":disp_user,"title":"Home"})
 
 
