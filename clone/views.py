@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Profile,Project,Rating
 from .forms import *
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProfileSerializer,ProjectSerializer
 # from django.http import JsonResponse
 # import json
 from django.db.models import Q
@@ -142,3 +145,21 @@ def edit_profile(request):
         form=ProfileForm(instance=request.user.profile)
         print('error')
     return render(request,'edit_profile.html',locals())
+
+
+
+################################################################################
+
+
+class ProfileList(APIView):
+    def get(self, request, format=None):
+        all_profilez = Profile.objects.all()
+        serializers = ProfileSerializer(all_profilez, many=True)
+        return Response(serializers.data)
+
+
+class ProjectList(APIView):
+    def get(self, request, format=None):
+        all_projectz = Project.objects.all()
+        serializers = ProjectSerializer(all_projectz, many=True)
+        return Response(serializers.data)
