@@ -58,6 +58,7 @@ def search_results(request):
         return render(request,'search.html',{"message":message,"title":"Search","disp_user":disp_user})
 
 
+@login_required(login_url='/accounts/login/')
 def project(request,id):
     disp_user = request.user
     project = Project.objects.get(id=id)
