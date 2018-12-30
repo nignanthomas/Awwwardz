@@ -71,6 +71,7 @@ INSTALLED_APPS = [
     'clone',
     'bootstrap4',
     'tinymce',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
