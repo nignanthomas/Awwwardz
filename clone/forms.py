@@ -1,7 +1,7 @@
 from django import forms
 from .models import Profile,Project,Rating
 
-numrate =[(x, x) for x in range(1, 11)]
+numrate =[(x, x) for x in range(0, 11)]
 
 
 class NewProjectForm(forms.ModelForm):
@@ -14,8 +14,7 @@ class RatingForm(forms.ModelForm):
     class Meta:
         model=Rating
         exclude=['user','project','date','score']
-        # widget={'usability': forms.ChoiceField(choices=numrate) , 'design': forms.ChoiceField(choices=numrate) , 'content': forms.ChoiceField(choices=numrate) , 'creativity': forms.ChoiceField(choices=numrate)}
-
+        widgets={'usability': forms.Select(choices=numrate) , 'design': forms.Select(choices=numrate) , 'content': forms.Select(choices=numrate) , 'creativity': forms.Select(choices=numrate)}
 
 class ProfileForm(forms.ModelForm):
    def __init__(self, *args, **kwargs):
